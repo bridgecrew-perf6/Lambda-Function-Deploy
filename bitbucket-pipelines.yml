@@ -1,0 +1,16 @@
+image: node:12
+
+pipelines:
+  branches: # Pipelines that will be triggered when a push is made in the below branch
+    master:
+      - step:
+          name: Create/Update Lambda code
+          script:
+            - pipe: atlassian/aws-sam-deploy:0.5.2
+              variables:
+                AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+                AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+                AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+                S3_BUCKET: aws-lambda-function-bucket
+                STACK_NAME: LambdaDemoStack
+                CAPABILITIES: ["CAPABILITY_IAM", "CAPABILITY_AUTO_EXPAND"]
